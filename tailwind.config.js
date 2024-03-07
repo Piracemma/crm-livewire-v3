@@ -2,19 +2,20 @@ import forms from '@tailwindcss/forms';
 /** @type {import('tailwindcss').Config} */
 export default {
   presets: [
-    require('./vendor/tallstackui/tallstackui/tailwind.config.js') 
-  ],
+		 './vendor/robsontenorio/mary/src/View/Components/**/*.php'
+	],
   content: [
     './resources/**/*.blade.php',
     './resources/**/*.js',
     './resources/**/*.vue',
-    './vendor/tallstackui/tallstackui/src/**/*.php',
+    './vendor/robsontenorio/mary/src/View/Components/**/*.php'
   ],
   theme: {
     extend: {},
   },
   plugins: [
-    forms
-  ],
+		forms,
+		require('daisyui')
+	],
 }
 
