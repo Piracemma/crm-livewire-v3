@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\Auth\Register;
+use App\Models\User;
 use Livewire\Livewire;
 
 use function Pest\Laravel\assertDatabaseCount;
@@ -28,9 +29,13 @@ it('register new user', function () {
 
     assertDatabaseCount('users', 1);
 
+    expect(auth()->check())
+        ->and(auth()->user())
+        ->ID->toBe(User::first()->ID);
+
 });
 
-test('validation rules', function($f){
+test('validation rules', function ($f) {
 
     Livewire::test(Register::class)
         ->set($f->field, $f->value)
@@ -38,11 +43,11 @@ test('validation rules', function($f){
         ->assertHasErrors([$f->field => $f->rule]);
 
 })->with([
-    'name::required' => (object)['field'=> 'name', 'value' => '', 'rule'=>'required'],
-    'name::max255' => (object)['field'=> 'name', 'value' => str_repeat('*', 256), 'rule'=>'max:255'],
-    'email::required' => (object)['field'=> 'email', 'value' => '', 'rule'=>'required'],
-    'email::email' => (object)['field'=> 'email', 'value' => 'not-an-email', 'rule'=>'email'],
-    'email::max' => (object)['field'=> 'email', 'value' => str_repeat('*'.'@doe.com', 256), 'rule'=>'max:255'],
-    'email::confirmation' => (object)['field'=> 'email', 'value' => 'joe@doe.com', 'rule'=>'confirmed'],
-    'password::required' => (object)['field'=> 'password', 'value' => '', 'rule'=>'required'],
+    'name::required' => (object) ['field' => 'name', 'value' => '', 'rule' => 'required'],
+    'name::max255' => (object) ['field' => 'name', 'value' => str_repeat('*', 256), 'rule' => 'max:255'],
+    'email::required' => (object) ['field' => 'email', 'value' => '', 'rule' => 'required'],
+    'email::email' => (object) ['field' => 'email', 'value' => 'not-an-email', 'rule' => 'email'],
+    'email::max' => (object) ['field' => 'email', 'value' => str_repeat('*'.'@doe.com', 256), 'rule' => 'max:255'],
+    'email::confirmation' => (object) ['field' => 'email', 'value' => 'joe@doe.com', 'rule' => 'confirmed'],
+    'password::required' => (object) ['field' => 'password', 'value' => '', 'rule' => 'required'],
 ]);
